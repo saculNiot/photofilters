@@ -103,32 +103,12 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: widget.title,
-          backgroundColor: widget.appBarColor,
-          actions: <Widget>[
-            loading
-                ? Container()
-                : IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () async {
-                      setState(() {
-                        loading = true;
-                      });
-                      var imageFile = await saveFilteredImage();
-
-                      Navigator.pop(context, {'image_filtered': imageFile});
-                    },
-                  )
-          ],
-        ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
           child: loading
               ? widget.loader
-              : Column(
-                  mainAxisSize: MainAxisSize.max,
+              : Stack(
                   children: [
                     Expanded(
                       flex: 6,
@@ -143,9 +123,30 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                         ),
                       ),
                     ),
+                    AppBar(
+                      title: widget.title,
+                      backgroundColor: Colors.transparent,
+                      actions: <Widget>[
+                        loading
+                            ? Container()
+                            : IconButton(
+                                icon: Icon(Icons.check),
+                                onPressed: () async {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  var imageFile = await saveFilteredImage();
+
+                                  Navigator.pop(
+                                      context, {'image_filtered': imageFile});
+                                },
+                              )
+                      ],
+                    ),
                     Expanded(
                       flex: 2,
                       child: Container(
+                        color: Colors.transparent,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: widget.filters.length,
@@ -280,7 +281,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                     )
                   : Image.memory(
                       snapshot.data,
-                      fit: BoxFit.contain,
+                      fit: BoxFit.fill,
                     );
           }
           return null; // unreachable
