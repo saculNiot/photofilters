@@ -143,7 +143,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                             _filterName,
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: double.infinity / 4),
+                                fontSize: 50),
                           ),
                         ),
                       )
@@ -171,7 +171,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                     ),
                     Positioned(
                         width: double.infinity,
-                        height: double.infinity / 5,
+                        height: 200,
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Container(
