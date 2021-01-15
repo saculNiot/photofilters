@@ -146,7 +146,8 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: 200,
+                        width: double.infinity,
+                        height: 100,
                         color: Colors.transparent,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
