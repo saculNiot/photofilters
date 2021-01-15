@@ -84,6 +84,8 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
   Filter _filter;
   imageLib.Image image;
   bool loading;
+  String _filterName = "";
+  double _opacity = 0;
 
   @override
   void initState() {
@@ -99,6 +101,18 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
     super.dispose();
   }
 
+  void _incrementCounter(String filterName) {
+    setState(() {
+      _filterName = filterName;
+      _opacity = 1;
+    });
+    Future.delayed(
+        Duration(milliseconds: 500),
+        () => setState(() {
+              _opacity = 0;
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -109,10 +123,9 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
           child: loading
               ? widget.loader
               : Stack(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Container(
+                  children: <Widget>[
+                    Stack(children: <Widget>[
+                      Container(
                         width: double.infinity,
                         height: double.infinity,
                         child: _buildFilteredImage(
@@ -121,7 +134,20 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                           filename,
                         ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: AnimatedOpacity(
+                          opacity: _opacity,
+                          duration: Duration(milliseconds: 500),
+                          child: Text(
+                            _filterName,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: double.infinity / 4),
+                          ),
+                        ),
+                      )
+                    ]),
                     AppBar(
                       title: widget.title,
                       elevation: 0,
@@ -144,39 +170,44 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                       ],
                     ),
                     Positioned(
+                        width: double.infinity,
+                        height: double.infinity / 5,
                         child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        color: Colors.transparent,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: widget.filters.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              child: Container(
-                                padding: EdgeInsets.all(5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    _buildFilterThumbnail(
-                                        widget.filters[index], image, filename),
-                                    SizedBox(
-                                      height: 5.0,
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            color: Colors.transparent,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: widget.filters.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                    child: Container(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          _buildFilterThumbnail(
+                                              widget.filters[index],
+                                              image,
+                                              filename),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      widget.filters[index].name,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              onTap: () => setState(() {
-                                _filter = widget.filters[index];
-                              }),
-                            );
-                          },
-                        ),
-                      ),
-                    ))
+                                    onTap: () {
+                                      _incrementCounter(
+                                          widget.filters[index].name);
+                                      setState(() {
+                                        _filter = widget.filters[index];
+                                      });
+                                    });
+                              },
+                            ),
+                          ),
+                        ))
                   ],
                 ),
         ),
