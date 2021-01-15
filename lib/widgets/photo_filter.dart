@@ -115,7 +115,6 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                       child: Container(
                         width: double.infinity,
                         height: double.infinity,
-                        padding: EdgeInsets.all(12.0),
                         child: _buildFilteredImage(
                           _filter,
                           image,
@@ -125,6 +124,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                     ),
                     AppBar(
                       title: widget.title,
+                      elevation: 0,
                       backgroundColor: Colors.transparent,
                       actions: <Widget>[
                         loading
@@ -143,8 +143,9 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                               )
                       ],
                     ),
-                    Expanded(
-                      flex: 2,
+                    Positioned(
+                        child: Align(
+                      alignment: Alignment.bottomCenter,
                       child: Container(
                         color: Colors.transparent,
                         child: ListView.builder(
@@ -175,7 +176,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                           },
                         ),
                       ),
-                    ),
+                    ))
                   ],
                 ),
         ),
