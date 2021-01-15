@@ -146,7 +146,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: 500,
+                        height: 200,
                         color: Colors.transparent,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
@@ -154,7 +154,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               child: Container(
-                                padding: EdgeInsets.all(5.0),
+                                padding: EdgeInsets.all(2.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
