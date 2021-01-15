@@ -126,6 +126,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                       title: widget.title,
                       elevation: 0,
                       backgroundColor: Colors.transparent,
+                      iconTheme: IconThemeData(color: Colors.white),
                       actions: <Widget>[
                         loading
                             ? Container()
